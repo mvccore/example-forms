@@ -2,8 +2,7 @@
 
 namespace App\Controllers;
 
-class Base extends \MvcCore\Controller
-{
+class Base extends \MvcCore\Controller {
 	/**
 	 * Authenticated user instance is automatically assigned
 	 * by authentication extension before `Controller::Init();`.
@@ -11,18 +10,6 @@ class Base extends \MvcCore\Controller
 	 */
 	protected $user = NULL;
 	
-	public function Init() {
-		parent::Init();
-		// when any CSRF token is outdated or not the same - sign out user by default
-		\MvcCore\Ext\Form::AddCsrfErrorHandler(function (\MvcCore\Ext\Form $form, $errorMsg) {
-			\MvcCore\Ext\Auths\Basics\User::LogOut();
-			self::Redirect($this->Url(
-				'front_login',
-				['absolute' => TRUE, 'sourceUrl'	=> rawurlencode($form->GetErrorUrl())]
-			));
-		});
-	}
-
 	public function PreDispatch () {
 		parent::PreDispatch();
 		if ($this->viewEnabled) {
@@ -35,10 +22,10 @@ class Base extends \MvcCore\Controller
 				$this->view->signOutForm = \MvcCore\Ext\Auths\Basic::GetInstance()
 					->GetSignOutForm()
 					->SetValues([
-						'successUrl' => $this->Url('front_login', ['absolute' => TRUE])
+						'successUrl' => $this->Url('Index:Index', ['absolute' => TRUE])
 					]);
-			} else if ($this->controllerName != 'front/auth') {
-				$this->view->signInLink = $this->Url('front_login');
+			} else if ($this->controllerName != 'auth') {
+				$this->view->signInLink = $this->Url('Index:SignIn');
 			}
 			$this->view->basePath = $this->request->GetBasePath();
 			$this->view->currentRouteCssClass = str_replace(
@@ -72,13 +59,7 @@ class Base extends \MvcCore\Controller
 			->Append($static . '/css/components/old-browsers-warning.css')
 			->AppendRendered($static . '/css/components/fonts.css')
 			->AppendRendered($static . '/css/components/forms-and-controls.css')
-			->AppendRendered($static . '/css/components/content-buttons.css')
-			->AppendRendered($static . '/css/components/content-tables.css')
 			->AppendRendered($static . '/css/layout.css')
 			->AppendRendered($static . '/css/content.css');
-		$this->view->Js('fixedHead')
-			->Append($static . '/js/libs/class.min.js')
-			->Append($static . '/js/libs/ajax.min.js')
-			->Append($static . '/js/libs/Module.js');
 	}
 }

@@ -11,7 +11,7 @@ background:	linear-gradient(rgb(108,120,159,0.6),rgb(108,120,159,0.3)),
 
 div.content{padding:25px;background:#fff;border-radius:3px;box-shadow:0 0 15px rgba(0,0,0,0.6);}
 div.content h1{margin:10px 0 25px 0;font-family:'MyriadBold';font-size:32px;}
-div.content.route-index-index{text-align:center;}
+
 div.content a.head-btn{float:right;}
 
 div.errors{margin-bottom:10px;}

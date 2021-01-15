@@ -17,8 +17,6 @@ class UserRegistration extends \MvcCore\Ext\Form
 
 	protected $enctype = \MvcCore\Ext\IForm::ENCTYPE_MULTIPART;
 
-	//protected $csrfEnabled = FALSE;
-
 	/**
 	 * @return \MvcCore\Ext\Forms\Validators\Password
 	 */
@@ -50,7 +48,6 @@ class UserRegistration extends \MvcCore\Ext\Form
 		$passwordValidator = self::GetPasswordValidator();
 
 		$fullName = (new Fields\Text)
-			//->SetValidators([])
 			->SetMinLength(3)
 			->SetMaxLength(100)
 			->SetRequired(TRUE)
@@ -58,21 +55,35 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetName('full_name')
 			->SetLabel('Full Name');;
 
+		$email = (new Fields\Email)
+			->AddValidators(new \App\Forms\UserRegistrations\EmailValidator)
+			->SetMaxLength(200)
+			->SetRequired(TRUE)
+			->SetPlaceHolder('username@example.com')
+			->SetLabel('Email')
+			->SetName('email');
+		
+		$urlValidator = (new \MvcCore\Ext\Forms\Validators\Url)
+			->SetAllowedSchemes('http', 'https')
+			// DNS validation is commented out to be able to submit the form offline.
+			/*->SetDnsValidation(
+				\MvcCore\Ext\Forms\Validators\Url::VALIDATE_DNS_TYPE_A
+			)*/;
+
+		$websiteUrl = (new Fields\Url)
+			->SetValidators([$urlValidator])
+			->SetMaxLength(1000)
+			->SetRequired(FALSE)
+			->SetPlaceHolder('http(s)://domain.com')
+			->SetLabel('Website')
+			->SetName('website_url');
+
 		$userName = (new Fields\Text)
-			//->SetValidators([])
 			->SetMaxLength(100)
 			->SetRequired(TRUE)
 			->SetPlaceHolder('user.name')
 			->SetName('user_name')
 			->SetLabel('Login');;
-
-		$email = (new Fields\Email)
-			->AddValidators(new \App\Forms\UserRegistrations\EmailValidator)
-			->SetMaxLength(100)
-			->SetRequired(TRUE)
-			->SetPlaceHolder('username@example.com')
-			->SetLabel('Email')
-			->SetName('email');
 
 		$password1 = (new Fields\Password)
 			->AddValidators($passwordValidator)
@@ -104,17 +115,22 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetMaxCount(1)
 			->SetAllowedFileNameChars('\-\.\,_a-zA-Z0-9')
 			->SetAccept(['image/jpeg','image/png','image/gif'])
+			->AddBombScanners(
+				\MvcCore\Ext\Forms\Validators\Files\Validations\BombScanners\ZipArchive::class,
+				\MvcCore\Ext\Forms\Validators\Files\Validations\BombScanners\PngImage::class
+			)
 			->SetName('avatar_image')
 			->SetLabel('Avatar image');
 
 
 		$send = (new Fields\SubmitButton)
 			->SetName('send');
-
+		
 		return $this->AddFields(
 			$fullName, 
-			$userName, 
 			$email, 
+			$websiteUrl, 
+			$userName, 
 			$password1, 
 			$password2, 
 			$avatarImg,
@@ -142,9 +158,12 @@ class UserRegistration extends \MvcCore\Ext\Form
 						$recaptchaCfg->secret
 					);
 
-				$data = (object) $this->values;
+				$data = (object) $this->GetValues();
+				
+				$data->password_hash = \App\Models\User::EncodePasswordToHash($data->password_first);
+				unset($data->password_first, $data->password_second);
 
-				$avatarUrl = NULL;
+				$data->avatar_url = NULL;
 				if (
 					$data->avatar_image && 
 					count($data->avatar_image) === 1
@@ -157,23 +176,24 @@ class UserRegistration extends \MvcCore\Ext\Form
 							$this->request->GetAppRoot() . $targetRelativePath
 						);
 						if ($moved) 
-							$avatarUrl = $this->request->GetDomainUrl() . $targetRelativePath;
+							$data->avatar_url = $this->request->GetBaseUrl() . $targetRelativePath;
 					}
 				}
+				unset($data->avatar_image);
 
 				$newUser = new \App\Models\User;
 				$newUser
-					->SetEmail($data->email)
 					->SetAdmin(FALSE)
 					->SetActive(TRUE)
-					->SetFullName($data->full_name)
-					->SetUserName($data->user_name)
-					->SetPasswordHash(
-						\App\Models\User::EncodePasswordToHash($data->password_first)
-					);
-				if ($avatarUrl)
-					$newUser->SetAvatarUrl($avatarUrl);
-
+					->SetCreated(new \DateTime('now'));
+				
+				$newUser->SetValues(
+					(array) $data,
+					\MvcCore\Model::PROPS_INHERIT |
+					\MvcCore\Model::PROPS_CONVERT_UNDERSCORES_TO_CAMELCASE
+				);
+				xxx($newUser);
+				
 				$newUser->Save(
 					TRUE, 
 					\MvcCore\IModel::PROPS_INHERIT |

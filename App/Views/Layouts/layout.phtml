@@ -10,8 +10,6 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<script>var timestamp=+new Date;(function(a,b,c,d,e,f){if(b[c]('Opera'))b=b[d](e,f);if(b[c]('Trident/'))b=b[d](/ rv:([0-9\.]*)\)/g,e+'$1)');a.setAttribute('data-browser',b);a.className=f;})(document.documentElement,navigator.userAgent,'match','replace',' MSIE ','')</script>
 		<?=$css('fixedHead')?>
-		<?=$css('varHead')?>
-		<?=$js('fixedHead')?>
 		<meta name="author" content="Tom Flidr <tomflidr(at)gmail(dot)com>" />
 	</head>
 	<body>
@@ -22,13 +20,13 @@
 			<?php if (isset($user)): ?>
 				<?=$signOutForm?>
 			<?php else: ?>
-				<div class="signin-link"><a href="<?=$url('login')?>">Login</a></div>
+				<div class="signin-link"><a href="<?=$url('Index:SignIn')?>">Login</a></div>
 			<?php endif; ?>
 
 			<div class="content route-<?=$currentRouteCssClass?>">
 				<div class="header">
-					<a href="<?=$url('home')?>">Users list</a>
-					<a href="<?=$url('register')?>">User registration</a>
+					<a href="<?=$url('Index:Index')?>">User Registration</a>
+					<a href="<?=$url('Users:List')?>">Registered Users</a>
 				</div>
 				<div class="document">
 					<?=$this->GetContent()?>
@@ -37,6 +35,5 @@
 
 		</div>
 
-		<?=$js('varFoot')?>
 	</body>
 </html>

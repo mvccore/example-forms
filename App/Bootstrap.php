@@ -64,21 +64,14 @@ class Bootstrap {
 		// Set up application routes (without custom names),
 		// defined basically as `Controller::Action` combinations:
 		\MvcCore\Router::GetInstance([
-			'home'			=> [
+			'Index:Index'			=> [
 				'match'				=> '#^/(index\.php)?$#',
 				'reverse'			=> '/',
-				'controllerAction'	=> 'Index:Index',
 				'defaults'			=> ['order' => 'desc'],
 				'constraints'		=> ['order' => 'a-z'],
 			],
-			'login'			=> [
-				'pattern'			=> '/login',
-				'controllerAction'	=> 'Index:SignIn',
-			],
-			'register'			=> [
-				'pattern'			=> '/register',
-				'controllerAction'	=> 'Registration:Index',
-			],
+			'Index:SignIn'			=> '/login',
+			'Users:List'			=> '/users',
 		]);
 		
 		return $app;
