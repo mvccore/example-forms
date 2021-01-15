@@ -1,0 +1,33 @@
+.content .header{overflow:hidden;border-bottom:1px solid #888;padding-bottom:20px;}
+.content .header a{text-align:center;display:inline-block;width:200px;height:60px;line-height:60px;background:#ccc;text-decoration:none;border-bottom:0;}
+
+.content .document{margin:20px 0;}
+.content .document p{margin:10px 0;text-align:justify;}
+.content .document hr{border:0;height:0;border-bottom:1px solid #888;margin:20px 0 20px 0;}
+.content .document h2{margin:20px 0 10px 0;}
+
+.users-order-link{float:right;}
+.user{padding:20px;}
+.user img{position:absolute;}
+.user h2{margin:0 !important;padding:5px 0 0 50px;}
+.user i{padding:4px 0 0 0;float:right;}
+.user:hover{background:#eee;}
+
+div.comments{margin:20px 0px;}
+div.comment{margin:25px 10px;}
+div.comment h4{margin:0;line-height:1.2em;}
+.content .document div.comment p{margin:0px 0px 5px 0;}
+
+form.comment input.title{width:calc(100% - 20px);margin-bottom:15px;}
+form.comment textarea.content{width:calc(100% - 20px);height:200px;margin-bottom:10px;}
+
+.route-front_login,
+.route-front_login .document p{text-align:center;}
+form.signin{width:50%;min-width:300px;}
+
+form.registration label{display:inline-block;width:150px;}
+form.registration input{display:inline-block;width:calc(100% - 170px);margin-bottom:10px;}
+form.registration input[type=password]{width:calc(50% - 85px);}
+form.registration button.send{margin-left:150px;}
+
+.content .document h1{line-height:1.3em;}

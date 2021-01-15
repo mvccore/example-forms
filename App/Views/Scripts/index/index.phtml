@@ -1,0 +1,32 @@
+<?php
+	/** @var $this \MvcCore\View */
+	/** @var $users \App\Models\User[] */
+?>
+
+<?php if (!$users): ?>
+	<h1><?=$title?></h1>
+	<p class="no-users-message">No users available.</p>
+
+<?php else: ?>
+	<a 
+	   class="users-order-link" 
+	   href="<?=$orderLinkValue?>"><?=$orderLinkText?></a>
+
+	<h1><?=$title?></h1>
+
+	<div class="users">
+		<?php foreach ($users as $user): ?>
+			
+			<div class="user">
+				<?php if ($user->GetAvatarUrl()): ?>
+					<img src="<?=$user->GetAvatarUrl()?>" 
+							height="30" width="auto" 
+							alt="<?=$user->GetUserName()?>" />
+				<?php endif; ?>
+				<i><?=$this->FormatDate($user->GetCreated())?></i>
+				<h2><?=$user->GetFullName()?></h2>
+			</div>
+
+		<?php endforeach ?>
+	</div>
+<?php endif; ?>

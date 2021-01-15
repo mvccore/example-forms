@@ -1,0 +1,16 @@
+<?php echo $this->RenderBegin(); ?>
+	<?php echo $this->RenderErrors(); ?>
+	<?php foreach ($this->form->GetFields() as $field): ?>
+		<?php if ($field instanceof \MvcCore\Ext\Forms\Fields\Hidden): ?>
+			<?php echo $field->Render(); ?>
+		<?php else: ?>
+			<div><?php echo $field->Render(); ?></div>
+		<?php endif; ?>
+	<?php endforeach; ?>
+
+	<?php if ($useRecaptcha): ?>
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+		<div class="g-recaptcha" data-sitekey="<?=$recaptchaSiteKey?>"></div>
+	<?php endif; ?>
+
+<?php echo $this->RenderEnd(); ?>

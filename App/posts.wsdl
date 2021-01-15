@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:tns="urn:%SERVICE%servicewsdl"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    targetNamespace="urn:helloservicewsdl">
+
+    <types>
+        <xsd:schema targetNamespace="urn:%SERVICE%">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+        </xsd:schema>
+    </types>
+
+    <message name="stringRequest">
+        <part name="path" type="xsd:string"/>
+    </message>
+
+    <message name="stringResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+
+    <portType name="%SERVICE%PortType">
+        <operation name="getTitleByPath">
+            <documentation>Get post title by post URL path.</documentation>
+            <input message="tns:stringRequest"/>
+            <output message="tns:stringResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="%SERVICE%Binding" type="tns:%SERVICE%PortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getTitleByPath">
+            <soap:operation soapAction="urn:%SERVICE%servicewsdl#getTitleByPath" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:%SERVICE%" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:%SERVICE%" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="%SERVICE%">
+        <port name="%SERVICE%Port" binding="tns:%SERVICE%Binding">
+            <soap:address location="%LOCATION%"/>
+        </port>
+    </service>
+  
+</definitions>
