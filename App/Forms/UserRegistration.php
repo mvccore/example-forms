@@ -192,7 +192,6 @@ class UserRegistration extends \MvcCore\Ext\Form
 					\MvcCore\Model::PROPS_INHERIT |
 					\MvcCore\Model::PROPS_CONVERT_UNDERSCORES_TO_CAMELCASE
 				);
-				xxx($newUser);
 				
 				$newUser->Save(
 					TRUE, 
