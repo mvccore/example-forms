@@ -15,10 +15,64 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 	use \MvcCore\Ext\Auths\Basics\User\Features;
 	
 	/**
-	 * @column created
-	 * @var \DateTime
+	 * @column gender
+	 * @var string|NULL
 	 */
-	protected $created = NULL;
+	protected $gender = NULL;
+	
+	/**
+	 * @column country
+	 * @var string|NULL
+	 */
+	protected $country = NULL;
+	
+	/**
+	 * @column localization
+	 * @var string|NULL
+	 */
+	protected $localization = NULL;
+	
+	/**
+	 * @column languages
+	 * @var string|NULL
+	 */
+	protected $languages = NULL;
+	
+	/**
+	 * @column born_date
+	 * @var \DateTime|NULL
+	 */
+	protected $bornDate = NULL;
+
+	/**
+	 * @column marital_status
+	 * @var int|NULL
+	 */
+	protected $maritalStatus = NULL;
+
+	/**
+	 * @column children
+	 * @var int|NULL
+	 */
+	protected $children = NULL;
+	
+	/**
+	 * @column working_from
+	 * @var float|NULL
+	 */
+	protected $workingFrom = NULL;
+	
+	/**
+	 * @column working_to
+	 * @var float|NULL
+	 */
+	protected $workingTo = NULL;
+	
+	/**
+	 * @column color
+	 * @var string|NULL
+	 */
+	protected $color = NULL;
 
 	/**
 	 * @column email
@@ -38,21 +92,172 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 	 * @var string|NULL
 	 */
 	protected $avatarUrl = NULL;
+
+	/**
+	 * @column created
+	 * @var \DateTime
+	 */
+	protected $created = NULL;
+	
 	
 	/**
-	 * @param \DateTime|NULL $created
+	 * @param string|NULL $gender
 	 * @return \App\Models\User
 	 */
-	public function SetCreated ($created) {
-		$this->created = $created;
+	public function SetGender ($gender) {
+		$this->gender = $gender;
+		return $this;
+	}
+
+	/**
+	 * @return string|NULL
+	 */
+	public function GetGender () {
+		return $this->gender;
+	}
+	
+	/**
+	 * @param string|NULL $country
+	 * @return \App\Models\User
+	 */
+	public function SetCountry ($country) {
+		$this->country = $country;
+		return $this;
+	}
+
+	/**
+	 * @return string|NULL
+	 */
+	public function GetCountry () {
+		return $this->country;
+	}
+	
+	/**
+	 * @param string|NULL $localization
+	 * @return \App\Models\User
+	 */
+	public function SetLocalization ($localization) {
+		$this->localization = $localization;
+		return $this;
+	}
+
+	/**
+	 * @return string|NULL
+	 */
+	public function GetLocalization () {
+		return $this->localization;
+	}
+	
+	/**
+	 * @param \string[]|NULL $languages
+	 * @return \App\Models\User
+	 */
+	public function SetLanguages ($languages) {
+		$this->languages = implode(',', $languages);
+		return $this;
+	}
+
+	/**
+	 * @return \string[]|NULL
+	 */
+	public function GetLanguages () {
+		return explode(',', $this->languages);
+	}
+	
+	/**
+	 * @param \DateTime|NULL $bornDate
+	 * @return \App\Models\User
+	 */
+	public function SetBornDate ($bornDate) {
+		$this->bornDate = $bornDate;
 		return $this;
 	}
 
 	/**
 	 * @return \DateTime|NULL
 	 */
-	public function GetCreated () {
-		return $this->created;
+	public function GetBornDate () {
+		return $this->bornDate;
+	}
+	
+	/**
+	 * @param int|NULL $maritalStatus
+	 * @return \App\Models\User
+	 */
+	public function SetMaritalStatus ($maritalStatus) {
+		$this->maritalStatus = $maritalStatus;
+		return $this;
+	}
+
+	/**
+	 * @return int|NULL
+	 */
+	public function GetMaritalStatus () {
+		return $this->maritalStatus;
+	}
+	
+	/**
+	 * @param int|NULL $children
+	 * @return \App\Models\User
+	 */
+	public function SetChildren ($children) {
+		$this->children = $children;
+		return $this;
+	}
+
+	/**
+	 * @return int|NULL
+	 */
+	public function GetChildren () {
+		return $this->children;
+	}
+	
+	/**
+	 * @param float|NULL $workingFrom
+	 * @return \App\Models\User
+	 */
+	public function SetWorkingFrom ($workingFrom) {
+		$this->workingFrom = $workingFrom;
+		return $this;
+	}
+
+	/**
+	 * @return float|NULL
+	 */
+	public function GetWorkingFrom () {
+		return $this->workingFrom;
+	}
+	
+	/**
+	 * @param float|NULL $workingTo
+	 * @return \App\Models\User
+	 */
+	public function SetWorkingTo ($workingTo) {
+		$this->workingTo = $workingTo;
+		return $this;
+	}
+
+	/**
+	 * @return float|NULL
+	 */
+	public function GetWorkingTo () {
+		return $this->workingTo;
+	}
+
+	/**
+	 * @param string|NULL $color
+	 * @return \App\Models\User
+	 */
+	public function SetColor ($color) {
+		$this->color = $color;
+		return $this;
+	}
+
+	/**
+	 * @return string|NULL
+	 */
+	public function GetColor () {
+		return $this->color;
 	}
 
 	/**
@@ -65,12 +270,12 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 	}
 
 	/**
-	 * @return null|string
+	 * @return string|NULL
 	 */
 	public function GetEmail () {
 		return $this->email;
 	}
-
+	
 	/**
 	 * @param string|NULL $websiteUrl 
 	 * @return \App\Models\User
@@ -81,7 +286,7 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 	}
 
 	/**
-	 * @return null|string
+	 * @return string|NULL
 	 */
 	public function GetWebsiteUrl () {
 		return $this->websiteUrl;
@@ -97,7 +302,7 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 	}
 
 	/**
-	 * @return null|string
+	 * @return string|NULL
 	 */
 	public function GetAvatarUrl () {
 		if (
@@ -106,6 +311,22 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 		) return $this->avatarUrl;
 		$req = \MvcCore\Application::GetInstance()->GetRequest();
 		return $req->GetBaseUrl() . '/' . ltrim($this->avatarUrl, '/');
+	}
+	
+	/**
+	 * @param \DateTime|NULL $created
+	 * @return \App\Models\User
+	 */
+	public function SetCreated ($created) {
+		$this->created = $created;
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime|NULL
+	 */
+	public function GetCreated () {
+		return $this->created;
 	}
 
 

@@ -44,23 +44,35 @@ class UserRegistration extends \MvcCore\Ext\Form
 
 	public function Init ($submit = FALSE) {
 		parent::Init($submit);
-
+		
 		$passwordValidator = self::GetPasswordValidator();
-
+		
+		$gender = (new Fields\RadioGroup)
+			->SetGroupLabelCssClasses('main')
+			->SetRenderMode(\MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND)
+			->SetOptions([
+				'F'	=> 'Female',
+				'M'	=> 'Male',
+				'O'	=> 'Other',
+			])
+			->SetRequired(TRUE)
+			->SetName('gender')
+			->SetLabel('Gender');
+		
 		$fullName = (new Fields\Text)
 			->SetMinLength(3)
 			->SetMaxLength(100)
 			->SetRequired(TRUE)
 			->SetPlaceHolder('John Doe')
 			->SetName('full_name')
-			->SetLabel('Full Name');;
+			->SetLabel('Full Name');
 
 		$email = (new Fields\Email)
 			->AddValidators(new \App\Forms\UserRegistrations\EmailValidator)
 			->SetMaxLength(200)
 			->SetRequired(TRUE)
 			->SetPlaceHolder('username@example.com')
-			->SetLabel('Email')
+			->SetLabel('E-mail')
 			->SetName('email');
 		
 		$urlValidator = (new \MvcCore\Ext\Forms\Validators\Url)
@@ -69,7 +81,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 			/*->SetDnsValidation(
 				\MvcCore\Ext\Forms\Validators\Url::VALIDATE_DNS_TYPE_A
 			)*/;
-
+		
 		$websiteUrl = (new Fields\Url)
 			->SetValidators([$urlValidator])
 			->SetMaxLength(1000)
@@ -77,38 +89,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetPlaceHolder('http(s)://domain.com')
 			->SetLabel('Website')
 			->SetName('website_url');
-
-		$userName = (new Fields\Text)
-			->SetMaxLength(100)
-			->SetRequired(TRUE)
-			->SetPlaceHolder('user.name')
-			->SetName('user_name')
-			->SetLabel('Login');;
-
-		$password1 = (new Fields\Password)
-			->AddValidators($passwordValidator)
-			->SetRequired(TRUE)
-			->SetName('password_first')
-			->SetLabel('Password')
-			/** @see https://stackoverflow.com/questions/2530/how-do-you-disable-browser-autocomplete-on-web-form-field-input-tag */
-			->SetControlAttrs([
-				'readonly'	=> 'readonly',
-				'onfocus'	=> "if(this.hasAttribute('readonly')){this.removeAttribute('readonly');this.blur();this.focus()}",
-			])
-			->SetAutoComplete('off');
-
-		$password2 = (new Fields\Password)
-			->AddValidators($passwordValidator)
-			//->SetRequired()
-			->SetName('password_second')
-			->SetLabel('Password (check)')
-			/** @see https://stackoverflow.com/questions/2530/how-do-you-disable-browser-autocomplete-on-web-form-field-input-tag */
-			->SetControlAttrs([
-				'readonly'	=> 'readonly',
-				'onfocus'	=> "if(this.hasAttribute('readonly')){this.removeAttribute('readonly');this.blur();this.focus()}",
-			])
-			->SetAutoComplete('off');
-
+		
 		$avatarImg = (new Fields\File)
 			->SetMaxSize(10485760) // 10 MB
 			->SetMultiple(FALSE)
@@ -122,19 +103,142 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetName('avatar_image')
 			->SetLabel('Avatar image');
 
+		$userName = (new Fields\Text)
+			->SetMaxLength(100)
+			->SetRequired(TRUE)
+			->SetPlaceHolder('user.name')
+			->SetName('user_name')
+			->SetLabel('Login')
+			->AddCssClasses('middle');
+
+		$password1 = (new Fields\Password)
+			->AddValidators($passwordValidator)
+			->SetRequired(TRUE)
+			->SetName('password_first')
+			->SetLabel('Password')
+			/** @see https://stackoverflow.com/questions/2530/how-do-you-disable-browser-autocomplete-on-web-form-field-input-tag */
+			->SetControlAttrs(['readonly' => 'readonly',]) // removed in JS
+			->SetAutoComplete('off')
+			->AddCssClasses('middle');
+
+		$password2 = (new Fields\Password)
+			->AddValidators($passwordValidator)
+			->SetRequired(TRUE)
+			->SetName('password_second')
+			->SetLabel('Password (check)')
+			/** @see https://stackoverflow.com/questions/2530/how-do-you-disable-browser-autocomplete-on-web-form-field-input-tag */
+			->SetControlAttrs([ 'readonly' => 'readonly',]) // removed in JS
+			->SetAutoComplete('off')
+			->AddCssClasses('middle');
+
+		$country = (new Fields\CountrySelect)
+			->SetNullOptionText(' ')
+			->FilterOptions([
+				'GB', 'FR', 'DE', 'CZ', 'SK', 'SZ', 'AT', 
+				'PL', 'DK', 'IT', 'ES', 'PT', 'IE', 'HU'
+			])
+			->SetMultiple(FALSE)
+			->SetRequired(FALSE)
+			->SetName('country')
+			->SetLabel('Born Country')
+			->AddCssClasses('middle');
+
+		$localization = (new Fields\LocalizationSelect)
+			->SetNullOptionText(' ')
+			->FilterOptions([
+				'en_GB', 'fr_FR', 'de_DE', 'cs_CZ', 'sk_SK', 'gsw_CH', 'de_AT', 
+				'pl_PL', 'da_DK', 'it_IT', 'ca_ES', 'pt_PT', 'ga_IE', 'hu_HU'
+			])
+			->SetRequired(FALSE)
+			->SetName('localization')
+			->SetLabel('Mother Tongue')
+			->AddCssClasses('middle');
+
+		$languages = (new Fields\CheckboxGroup)
+			->SetGroupLabelCssClasses('main')
+			->SetRenderMode(\MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND)
+			->SetOptions([
+				'en'	=> 'English',
+				'ch'	=> 'Chinese',
+				'hi'	=> 'Hindi',
+				'sp'	=> 'Spanish',
+				'fr'	=> 'French',
+				'ar'	=> 'Arabic',
+				'be'	=> 'Bengali',
+				'ru'	=> 'Russian',
+			])
+			->SetRequired(FALSE)
+			->SetName('languages')
+			->SetLabel('Languages');
+		
+		$bornDate = (new Fields\Date)
+			->SetMin('1900-01-01')
+			->SetMax(new \Datetime('now'))
+			->SetLabel('Born Date')
+			->SetName('born_date')
+			->SetRequired(FALSE)
+			->AddCssClasses('short');
+
+		$marital = (new Fields\Select)
+			->SetNullOptionText(' ')
+			->SetOptions([
+				0	=> 'Single',
+				1	=> 'Married',
+				2	=> 'Separated',
+				3	=> 'Divorced',
+				4	=> 'Widowed',
+			])
+			->SetRequired(FALSE)
+			->SetName('marital_status')
+			->SetLabel('Marital Status')
+			->AddCssClasses('short');
+
+		$children = (new Fields\Number)
+			->SetValidators(['IntNumber'])
+			->SetMin(0)
+			->SetMax(50)
+			->SetStep(1)
+			->SetRequired(FALSE)
+			->SetLabel('Children')
+			->SetName('children')
+			->AddCssClasses('short');
+		
+		$workingTime = (new Fields\Range)
+			->SetMultiple(TRUE)
+			->SetMin(0)
+			->SetMax(24)
+			->SetStep(0.5)
+			->SetRequired(FALSE)
+			->SetLabel('Working Time')
+			->SetName('working_time')
+			->AddCssClasses('short');
+		
+		$color = (new Fields\Color)
+			->SetRequired(FALSE)
+			->SetName('color')
+			->SetLabel('Favourite Color')
+			->AddCssClasses('short');
+
+		$newsletter = (new Fields\Checkbox)
+			->SetRequired(FALSE)
+			->SetName('newsletter')
+			->SetLabel("I don't want to receive any newsletters.");
 
 		$send = (new Fields\SubmitButton)
 			->SetName('send');
 		
-		return $this->AddFields(
-			$fullName, 
-			$email, 
-			$websiteUrl, 
-			$userName, 
-			$password1, 
-			$password2, 
-			$avatarImg,
-			$send
+		$reset = (new Fields\ResetButton)
+			->SetName('reset');
+		
+		$this->AddFields(
+			$gender, $fullName, 
+			$email, $websiteUrl, $avatarImg, 
+			$userName, $password1, $password2, 
+			$country, $localization, $languages,
+			$bornDate, $marital, $children,
+			$workingTime, $color,
+			$newsletter, 
+			$send, $reset
 		);
 	}
 
@@ -181,6 +285,12 @@ class UserRegistration extends \MvcCore\Ext\Form
 				}
 				unset($data->avatar_image);
 
+				$data->languages = is_array($data->languages) ? implode(',', $data->languages) : [$data->languages];
+
+				$data->working_from = $data->working_time[0];
+				$data->working_to = $data->working_time[1];
+				unset($data->working_time);
+
 				$newUser = new \App\Models\User;
 				$newUser
 					->SetAdmin(FALSE)
@@ -193,6 +303,9 @@ class UserRegistration extends \MvcCore\Ext\Form
 					\MvcCore\Model::PROPS_CONVERT_UNDERSCORES_TO_CAMELCASE
 				);
 				
+				//x($data);
+				//xxx($newUser);
+
 				$newUser->Save(
 					TRUE, 
 					\MvcCore\IModel::PROPS_INHERIT |

@@ -1,16 +1,29 @@
 <?php echo $this->RenderBegin(); ?>
 	<?php echo $this->RenderErrors(); ?>
-	<?php foreach ($this->form->GetFields() as $field): ?>
-		<?php if ($field instanceof \MvcCore\Ext\Forms\Fields\Hidden): ?>
-			<?php echo $field->Render(); ?>
-		<?php else: ?>
-			<div><?php echo $field->Render(); ?></div>
-		<?php endif; ?>
+
+	<?php list (
+		$hiddenFields, $controlFields, $submitFields
+	) = $this->RenderContentGetFieldsGroups(); ?>
+
+	<?php foreach ($hiddenFields as $hiddenField): ?>
+		<?php echo $hiddenField->Render(); ?>
 	<?php endforeach; ?>
+
+	<div class="controls">
+		<?php foreach ($controlFields as $controlField): ?>
+			<div><?php echo $controlField->Render(); ?></div>
+		<?php endforeach; ?>
+	</div>
 
 	<?php if ($useRecaptcha): ?>
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 		<div class="g-recaptcha" data-sitekey="<?=$recaptchaSiteKey?>"></div>
 	<?php endif; ?>
+
+	<div class="submits">
+		<?php foreach ($submitFields as $submitField): ?>
+			<?php echo $submitField->Render(); ?>
+		<?php endforeach; ?>
+	</div>
 
 <?php echo $this->RenderEnd(); ?>

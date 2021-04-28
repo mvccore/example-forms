@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use \MvcCore\Ext\Tools\Csp;
+
 class Base extends \MvcCore\Controller {
 	/**
 	 * Authenticated user instance is automatically assigned
@@ -33,11 +35,46 @@ class Base extends \MvcCore\Controller {
 					$this->router->GetCurrentRoute()->GetName()
 				)
 			);
+			$csp = Csp::GetInstance();
+			$csp
+				->Disallow(
+					Csp::FETCH_DEFAULT_SRC | 
+					Csp::FETCH_OBJECT_SRC
+				)
+				->AllowSelf(
+					Csp::FETCH_SCRIPT_SRC | 
+					Csp::FETCH_STYLE_SRC | 
+					Csp::FETCH_IMG_SRC |
+					Csp::FETCH_FONT_SRC |
+					Csp::FETCH_MEDIA_SRC |
+					Csp::FETCH_CONNECT_SRC |
+					Csp::FETCH_FRAME_SRC
+				)
+				->AllowHosts(
+					Csp::FETCH_SCRIPT_SRC, [
+						'https://cdnjs.com/',
+					]
+				)
+				->AllowHosts(
+					Csp::FETCH_IMG_SRC, [
+						'data:'
+					]
+				)
+				->AllowNonce(Csp::FETCH_SCRIPT_SRC)
+				->AllowStrictDynamic(Csp::FETCH_SCRIPT_SRC)
+				->AllowUnsafeInline(Csp::FETCH_STYLE_SRC);
+
+			$this->view->nonce = $csp->GetNonce();
+
+			$this->application->AddPreSentHeadersHandler(function ($req, \MvcCore\IResponse $res) {
+				$csp = Csp::GetInstance();
+				$res->SetHeader($csp->GetHeaderName(), $csp->GetHeaderValue());
+			});
 		}
 	}
 
 	protected function preDispatchSetUpViewHelpers () {
-		/** @var $formateDate \MvcCore\Ext\Views\Helpers\FormatDateHelper */
+		/** @var \MvcCore\Ext\Views\Helpers\FormatDateHelper $formateDate */
 		$formateDate = $this->view->GetHelper('FormatDate');
 		$formateDate
 			->SetIntlDefaultDateFormatter(\IntlDateFormatter::MEDIUM)
@@ -61,5 +98,11 @@ class Base extends \MvcCore\Controller {
 			->AppendRendered($static . '/css/components/forms-and-controls.css')
 			->AppendRendered($static . '/css/layout.css')
 			->AppendRendered($static . '/css/content.css');
+		$this->view->Js('fixedHead')
+			->Append($static . '/js/libs/class.min.js')
+			->Append($static . '/js/libs/ajax.min.js')
+			->Append($static . '/js/libs/Module.js');
+		$this->view->Js('varFoot')
+			->Append($static . '/js/Front.js');
 	}
 }

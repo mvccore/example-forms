@@ -1,5 +1,5 @@
 <?php
-	/** @var $this \MvcCore\View */
+	/** @var \MvcCore\View $this */
 	/** @var $users \App\Models\User[] */
 ?>
 
@@ -25,6 +25,22 @@
 				<?php endif; ?>
 				<i><?=$this->FormatDate($user->GetCreated())?></i>
 				<h2><?=$user->GetFullName()?></h2>
+				<table>
+					<tbody>
+						<tr>
+							<td>E-mail:</td>
+							<td><?=$user->GetEmail()?></td>
+						</tr>
+						<tr>
+							<td>Website:</td>
+							<td><?=$user->GetWebsiteUrl()?></td>
+						</tr>
+						<tr>
+							<td>Login:</td>
+							<td><?=$user->GetUserName()?></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 
 		<?php endforeach ?>

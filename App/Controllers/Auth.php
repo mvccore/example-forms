@@ -5,7 +5,7 @@ namespace App\Controllers;
 class Auth extends \MvcCore\Ext\Auths\Basics\Controller
 {
 	public function SignInAction () {
-		/** @var $form \MvcCore\Ext\Auths\Basics\SignInForm */
+		/** @var \MvcCore\Ext\Auths\Basics\SignInForm $form */
 		$form = \MvcCore\Ext\Auths\Basic::GetInstance()->GetSignInForm();
 		list ($result, $data, $errors) = $form->Submit();
 		if ($result === \MvcCore\Ext\Form::RESULT_SUCCESS) {
