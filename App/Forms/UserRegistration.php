@@ -48,6 +48,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 		$passwordValidator = self::GetPasswordValidator();
 		
 		$gender = (new Fields\RadioGroup)
+			->SetFieldOrder(0)
 			->SetGroupLabelCssClasses('main')
 			->SetRenderMode(\MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND)
 			->SetOptions([
@@ -60,6 +61,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetLabel('Gender');
 		
 		$fullName = (new Fields\Text)
+			->SetFieldOrder(1)
 			->SetMinLength(3)
 			->SetMaxLength(100)
 			->SetRequired(TRUE)
@@ -231,14 +233,15 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetName('reset');
 		
 		$this->AddFields(
-			$gender, $fullName, 
 			$email, $websiteUrl, $avatarImg, 
 			$userName, $password1, $password2, 
 			$country, $localization, $languages,
 			$bornDate, $marital, $children,
 			$workingTime, $color,
 			$newsletter, 
-			$send, $reset
+			$send, $reset,
+			
+			$gender, $fullName
 		);
 	}
 
