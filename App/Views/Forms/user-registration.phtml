@@ -2,7 +2,7 @@
 	<?php echo $this->RenderErrors(); ?>
 
 	<?php list (
-		$hiddenFields, $controlFields, $submitFields
+		$hiddenFields, $contentFieldsAndFielsets, $submitFields
 	) = $this->RenderContentGetFieldsGroups(); ?>
 
 	<?php foreach ($hiddenFields as $hiddenField): ?>
@@ -10,8 +10,8 @@
 	<?php endforeach; ?>
 
 	<div class="controls">
-		<?php foreach ($controlFields as $controlField): ?>
-			<div><?php echo $controlField->Render(); ?></div>
+		<?php foreach ($contentFieldsAndFielsets as $contentField): ?>
+			<div><?php echo $contentField->Render(); ?></div>
 		<?php endforeach; ?>
 	</div>
 

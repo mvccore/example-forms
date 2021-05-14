@@ -105,6 +105,12 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetName('avatar_image')
 			->SetLabel('Avatar image');
 
+		$credentials = new Forms\Fieldset(
+			name: 'credentials',
+			legend: 'Credentials',
+			fieldOrder: 5
+		);
+
 		$userName = (new Fields\Text)
 			->SetMaxLength(100)
 			->SetRequired(TRUE)
@@ -132,6 +138,8 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetControlAttrs([ 'readonly' => 'readonly',]) // removed in JS
 			->SetAutoComplete('off')
 			->AddCssClasses('middle');
+
+		$credentials->AddFields($userName, $password1, $password2);
 
 		$country = (new Fields\CountrySelect)
 			->SetNullOptionText(' ')
@@ -233,8 +241,8 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetName('reset');
 		
 		$this->AddFields(
-			$email, $websiteUrl, $avatarImg, 
-			$userName, $password1, $password2, 
+			$email, $websiteUrl, $websiteUrl, $avatarImg, 
+			//$userName, $password1, $password2, 
 			$country, $localization, $languages,
 			$bornDate, $marital, $children,
 			$workingTime, $color,
@@ -243,6 +251,8 @@ class UserRegistration extends \MvcCore\Ext\Form
 			
 			$gender, $fullName
 		);
+
+		$this->AddFieldset($credentials);
 	}
 
 	public function PreDispatch($submit = FALSE) {
