@@ -18,17 +18,24 @@
 .route-front_login .document p{text-align:center;}
 form.signin{width:50%;min-width:300px;}
 
-form.registration{padding:33px 18px;}
+form.registration{padding:1px 3px 3px 3px;}
 
-form.registration label,
-form.registration label.main{display:inline-block;width:135px;padding-left:15px;}
+form.registration label{display:inline-block;width:150px;padding-left:15px;}
+form.registration fieldset label{width:135px;}
+form.registration fieldset fieldset label{width:120px;}
+form.registration label:first-child{line-height:40px;}
+form.registration label.option{padding-top: 8px;}
 
-form.registration div.controls fieldset{border:1px solid #fff;padding:0 15px;margin:15px 0;}
+form.registration div.controls fieldset{border:1px solid #fff;padding:4px 15px 0 15px;margin:8px 15px;}
+form.registration div.controls fieldset fieldset{padding:0 15px;margin:15px 0;}
 form.registration div.controls fieldset legend{display:inline-block;padding: 0 10px;margin-left:-10px;}
 form.registration div.controls fieldset label{padding-left:0;}
 
+form.registration div.submits{padding:15px 0;background:rgba(0,0,0,0.5);}
+
+form.registration div.controls > div{margin-bottom:15px;}
 form.registration div.controls > div > input,
-form.registration div.controls > div > select{display:inline-block;width:calc(100% - 185px);margin-bottom:15px;}
+form.registration div.controls > div > select{display:inline-block;width:calc(100% - 185px);}
 form.registration div.controls > div > input[type=file]{width:calc(100% - 175px);}
 form.registration div.controls > div > input[type=color]{width:80px !important;}
 form.registration div.controls > div > input.middle{width:calc((100% - (165px + (33px * 2))) / 2);}
@@ -40,6 +47,8 @@ form.registration div.controls > div > span.range > *{width:100%;}
 
 form.registration div.controls > div > fieldset input,
 form.registration div.controls > div > fieldset select{width:calc(100% - 155px);}
+form.registration div.controls > div > fieldset fieldset input,
+form.registration div.controls > div > fieldset fieldset select{width:calc(100% - 140px);}
 form.registration div.controls > div > fieldset input[type=file]{width:calc(100% - 145px);}
 form.registration div.controls > div > fieldset input.middle{width:calc((100% - (135px + (33px * 2))) / 2);}
 form.registration div.controls > div > fieldset select.middle{width:calc((100% - (135px + (33px * 2)) + 40px) / 2);}
@@ -54,7 +63,9 @@ form.registration label.checkbox-group:nth-child(3n-1){display:inline-block;marg
 form.registration label.radio:last-of-type,
 form.registration label.checkbox-group:last-of-type{margin-bottom:10px;}
 form.registration label.radio input,
-form.registration label.checkbox-group input{width:auto;}
+form.registration label.checkbox-group input,
+form.registration div.controls > div > fieldset label.radio input,
+form.registration div.controls > div > fieldset label.checkbox-group input{width:auto;}
 form.registration label.radio span{margin-left:5px;}
 form.registration label.checkbox-group span{margin-left:5px;}
 form.registration label.radio input::after{content:none;}
@@ -63,7 +74,9 @@ form.registration label.radio.required:nth-child(2) span::after,
 form.registration label.checkbox-group.required:nth-child(2) span::after{content:'*';color:#f1210a;position:relative;left:15px;top:-6px;}
 
 form.registration input.checkbox{width:auto !important;margin-left:157px;}
-form.registration label.checkbox{width:auto !important;margin:5px 0 15px 5px;padding-left:0;}
+form.registration fieldset input.checkbox{margin-left:142px;}
+form.registration fieldset fieldset input.checkbox{margin-left:127px;}
+form.registration label.checkbox{width:auto !important;margin:5px 0 5px 5px;padding-left:0;}
 
 form.registration span.range{margin-bottom:15px;}
 form.registration button.send{margin-left:150px;}

@@ -44,11 +44,16 @@ class UserRegistration extends \MvcCore\Ext\Form
 
 	public function Init ($submit = FALSE) {
 		parent::Init($submit);
-		
+
 		$passwordValidator = self::GetPasswordValidator();
 		
+		$personal = (new Forms\Fieldset)
+			->SetName('personal')
+			->SetLegend('Personal')
+			->SetFieldOrder(0);
+
 		$gender = (new Fields\RadioGroup)
-			->SetFieldOrder(0)
+			->AddCssClasses('option')
 			->SetGroupLabelCssClasses('main')
 			->SetRenderMode(\MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND)
 			->SetOptions([
@@ -61,14 +66,22 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetLabel('Gender');
 		
 		$fullName = (new Fields\Text)
-			->SetFieldOrder(1)
 			->SetMinLength(3)
 			->SetMaxLength(100)
 			->SetRequired(TRUE)
 			->SetPlaceHolder('John Doe')
 			->SetName('full_name')
 			->SetLabel('Full Name');
+		
+		$personal->AddFields(
+			$gender, $fullName
+		);
 
+
+		$web = (new Forms\Fieldset)
+			->SetName('web')
+			->SetLegend('Web');
+		
 		$email = (new Fields\Email)
 			->AddValidators(new \App\Forms\UserRegistrations\EmailValidator)
 			->SetMaxLength(200)
@@ -92,24 +105,24 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetLabel('Website')
 			->SetName('website_url');
 		
-		$avatarImg = (new Fields\File)
-			->SetMaxSize(10485760) // 10 MB
-			->SetMultiple(FALSE)
-			->SetMaxCount(1)
-			->SetAllowedFileNameChars('\-\.\,_a-zA-Z0-9')
-			->SetAccept(['image/jpeg','image/png','image/gif'])
-			->AddBombScanners(
-				\MvcCore\Ext\Forms\Validators\Files\Validations\BombScanners\ZipArchive::class,
-				\MvcCore\Ext\Forms\Validators\Files\Validations\BombScanners\PngImage::class
-			)
-			->SetName('avatar_image')
-			->SetLabel('Avatar image');
+		$newsletter = (new Fields\Checkbox)
+			->SetRequired(FALSE)
+			->SetName('newsletter')
+			->SetLabel("I don't want to receive any newsletters.");
 
-		$credentials = new Forms\Fieldset(
-			name: 'credentials',
-			legend: 'Credentials',
-			fieldOrder: 5
+		$web->AddFields(
+			$email, $websiteUrl, $newsletter
 		);
+
+		$personal->AddFieldset(
+			$web
+		);
+
+		
+		$credentials = (new Forms\Fieldset)
+			->SetName('credentials')
+			->SetLegend('Credentials')
+			->SetFieldOrder(1);
 
 		$userName = (new Fields\Text)
 			->SetMaxLength(100)
@@ -138,20 +151,29 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetControlAttrs([ 'readonly' => 'readonly',]) // removed in JS
 			->SetAutoComplete('off')
 			->AddCssClasses('middle');
-
-		$credentials->AddFields($userName, $password1, $password2);
-
-		$country = (new Fields\CountrySelect)
-			->SetNullOptionText(' ')
-			->FilterOptions([
-				'GB', 'FR', 'DE', 'CZ', 'SK', 'SZ', 'AT', 
-				'PL', 'DK', 'IT', 'ES', 'PT', 'IE', 'HU'
-			])
+		
+		$avatarImg = (new Fields\File)
+			->SetMaxSize(10485760) // 10 MB
 			->SetMultiple(FALSE)
-			->SetRequired(FALSE)
-			->SetName('country')
-			->SetLabel('Born Country')
-			->AddCssClasses('middle');
+			->SetMaxCount(1)
+			->SetAllowedFileNameChars('\-\.\,_a-zA-Z0-9')
+			->SetAccept(['image/jpeg','image/png','image/gif'])
+			->AddBombScanners(
+				\MvcCore\Ext\Forms\Validators\Files\Validations\BombScanners\ZipArchive::class,
+				\MvcCore\Ext\Forms\Validators\Files\Validations\BombScanners\PngImage::class
+			)
+			->SetName('avatar_image')
+			->SetLabel('Avatar image');
+
+		$credentials->AddFields(
+			$userName, $password1, $password2, $avatarImg
+		);
+
+
+		$internationalization = (new Forms\Fieldset)
+			->SetName('internationalization')
+			->SetLegend('Internationalization')
+			->SetFieldOrder(2);
 
 		$localization = (new Fields\LocalizationSelect)
 			->SetNullOptionText(' ')
@@ -166,6 +188,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 
 		$languages = (new Fields\CheckboxGroup)
 			->SetGroupLabelCssClasses('main')
+			->AddCssClasses('option')
 			->SetRenderMode(\MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND)
 			->SetOptions([
 				'en'	=> 'English',
@@ -180,6 +203,28 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetRequired(FALSE)
 			->SetName('languages')
 			->SetLabel('Languages');
+		
+		$bornCountry = (new Fields\CountrySelect)
+			->SetNullOptionText(' ')
+			->FilterOptions([
+				'GB', 'FR', 'DE', 'CZ', 'SK', 'SZ', 'AT', 
+				'PL', 'DK', 'IT', 'ES', 'PT', 'IE', 'HU'
+			])
+			->SetMultiple(FALSE)
+			->SetRequired(FALSE)
+			->SetName('country')
+			->SetLabel('Born Country')
+			->AddCssClasses('middle');
+
+		$internationalization->AddFields(
+			$localization, $languages, $bornCountry
+		);
+
+
+		$family = (new Forms\Fieldset)
+			->SetName('family')
+			->SetLegend('Family')
+			->SetFieldOrder(3);
 		
 		$bornDate = (new Fields\Date)
 			->SetMin('1900-01-01')
@@ -212,6 +257,11 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetLabel('Children')
 			->SetName('children')
 			->AddCssClasses('short');
+
+		$family->AddFields(
+			$bornDate, $marital, $children
+		);
+
 		
 		$workingTime = (new Fields\Range)
 			->SetMultiple(TRUE)
@@ -229,11 +279,6 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetLabel('Favourite Color')
 			->AddCssClasses('short');
 
-		$newsletter = (new Fields\Checkbox)
-			->SetRequired(FALSE)
-			->SetName('newsletter')
-			->SetLabel("I don't want to receive any newsletters.");
-
 		$send = (new Fields\SubmitButton)
 			->SetName('send');
 		
@@ -241,18 +286,13 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetName('reset');
 		
 		$this->AddFields(
-			$email, $websiteUrl, $websiteUrl, $avatarImg, 
-			//$userName, $password1, $password2, 
-			$country, $localization, $languages,
-			$bornDate, $marital, $children,
 			$workingTime, $color,
-			$newsletter, 
 			$send, $reset,
-			
-			$gender, $fullName
 		);
-
-		$this->AddFieldset($credentials);
+		
+		$this->AddFieldsets(
+			$personal, $credentials, $internationalization, $family
+		);
 	}
 
 	public function PreDispatch($submit = FALSE) {
