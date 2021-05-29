@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use \MvcCore\Ext\Models\Db\Statement;
-use function \MvcCore\Ext\Models\Db\FuncHelpers\{Table, Columns};
+use function \MvcCore\Ext\Models\Db\FuncHelpers\Table;
+use function \MvcCore\Ext\Models\Db\FuncHelpers\Columns;
 
 /** 
  * @table users

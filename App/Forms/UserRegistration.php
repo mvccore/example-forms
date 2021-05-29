@@ -287,7 +287,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 		
 		$this->AddFields(
 			$workingTime, $color,
-			$send, $reset,
+			$send, $reset
 		);
 		
 		$this->AddFieldsets(
