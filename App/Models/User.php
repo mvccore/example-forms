@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use \MvcCore\Ext\Models\Db\Statement;
-use function \MvcCore\Ext\Models\Db\FuncHelpers\Table;
-use function \MvcCore\Ext\Models\Db\FuncHelpers\Columns;
+//use function \MvcCore\Ext\Models\Db\FuncHelpers\Table;
+//use function \MvcCore\Ext\Models\Db\FuncHelpers\Columns;
 
 /** 
  * @table users
@@ -341,7 +341,7 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 		return self::GetConnection()
 			->Prepare([
 				"SELECT ".Columns()."				",
-				"FROM ".Table(0)." 					",
+				"FROM users 						",
 				"ORDER BY {$orderCol} {$orderDir};	",
 			])
 			->StreamAll()
