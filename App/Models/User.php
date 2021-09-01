@@ -340,7 +340,7 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 	public static function GetAll ($orderCol = 'created', $orderDir = 'desc') {
 		return self::GetConnection()
 			->Prepare([
-				"SELECT ".Columns()."				",
+				"SELECT *						",
 				"FROM users 						",
 				"ORDER BY {$orderCol} {$orderDir};	",
 			])

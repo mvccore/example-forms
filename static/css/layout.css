@@ -9,10 +9,10 @@ background:	linear-gradient(rgb(108,120,159,0.6),rgb(108,120,159,0.3)),
 
 .master-container{width:50%;min-width:900px;margin:30px auto 50px auto;}
 
-div.content{padding:25px;background:#fff;border-radius:3px;box-shadow:0 0 15px rgba(0,0,0,0.6);}
-div.content h1{margin:10px 0 25px 0;font-family:'MyriadBold';font-size:32px;}
+.master-container > div.content{padding:25px;background:#fff;border-radius:3px;box-shadow:0 0 15px rgba(0,0,0,0.6);}
+.master-container > div.content h1{margin:10px 0 25px 0;font-family:'MyriadBold';font-size:32px;}
 
-div.content a.head-btn{float:right;}
+.master-container > div.content a.head-btn{float:right;}
 
 div.errors{margin-bottom:10px;}
 div.error{color:#ff2222;font-family:'MyriadSemiBold';text-align:center;}
