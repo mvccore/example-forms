@@ -159,9 +159,10 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetAllowedFileNameChars('\-\.\,_a-zA-Z0-9')
 			->SetAccept(['image/jpeg','image/png','image/gif'])
 			->AddBombScanners(
-				'\MvcCore\Ext\Forms\Validators\Files\Validations\BombScanners\ZipArchive',
-				'\MvcCore\Ext\Forms\Validators\Files\Validations\BombScanners\PngImage'
+				'\\MvcCore\\Ext\\Forms\\Validators\\Files\\Validations\\BombScanners\\ZipArchive',
+				'\\MvcCore\\Ext\\Forms\\Validators\\Files\\Validations\\BombScanners\\PngImage'
 			)
+			->SetPngImageMaxWidthHeight(300)
 			->SetName('avatar_image')
 			->SetLabel('Avatar image');
 
