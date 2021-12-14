@@ -3,7 +3,8 @@
 namespace App\Forms;
 
 use \MvcCore\Ext\Forms,
-	\MvcCore\Ext\Forms\Fields;
+	\MvcCore\Ext\Forms\Fields,
+	\MvcCore\Ext\Forms\Validators;
 
 class UserRegistration extends \MvcCore\Ext\Form
 {
@@ -18,10 +19,10 @@ class UserRegistration extends \MvcCore\Ext\Form
 	protected $enctype = \MvcCore\Ext\IForm::ENCTYPE_MULTIPART;
 
 	/**
-	 * @return \MvcCore\Ext\Forms\Validators\Password
+	 * @return Validators\Password
 	 */
 	public static function GetPasswordValidator () {
-		return (new \MvcCore\Ext\Forms\Validators\Password)
+		return (new Validators\Password)
 
 			// dev rules:
 			->SetMustHaveMinLength(3)
@@ -90,7 +91,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetLabel('E-mail')
 			->SetName('email');
 		
-		$urlValidator = (new \MvcCore\Ext\Forms\Validators\Url)
+		$urlValidator = (new Validators\Url)
 			->SetAllowedSchemes('http', 'https')
 			// DNS validation is commented out to be able to submit the form offline.
 			/*->SetDnsValidation(
@@ -152,19 +153,23 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetAutoComplete('off')
 			->AddCssClasses('middle');
 		
+		//$avatarImgValidator = (new 
 		$avatarImg = (new Fields\File)
 			->SetMaxSize(10485760) // 10 MB
 			->SetMultiple(FALSE)
 			->SetMaxCount(1)
-			->SetAllowedFileNameChars('\-\.\,_a-zA-Z0-9')
 			->SetAccept(['image/jpeg','image/png','image/gif'])
-			->AddBombScanners(
-				'\\MvcCore\\Ext\\Forms\\Validators\\Files\\Validations\\BombScanners\\ZipArchive',
-				'\\MvcCore\\Ext\\Forms\\Validators\\Files\\Validations\\BombScanners\\PngImage'
-			)
-			->SetPngImageMaxWidthHeight(300)
 			->SetName('avatar_image')
-			->SetLabel('Avatar image');
+			->SetLabel('Avatar image')
+			->SetValidators([
+				(new Validators\Files)
+					->SetAllowedFileNameChars('\-\.\,_a-zA-Z0-9')
+					->AddBombScanners(
+						'\\MvcCore\\Ext\\Forms\\Validators\\Files\\Validations\\BombScanners\\ZipArchive',
+						'\\MvcCore\\Ext\\Forms\\Validators\\Files\\Validations\\BombScanners\\PngImage'
+					)
+					->SetPngImageMaxWidthHeight(300)
+			]);
 
 		$credentials->AddFields(
 			$userName, $password1, $password2, $avatarImg
