@@ -77,10 +77,10 @@ class Base extends \MvcCore\Controller {
 		/** @var \MvcCore\Ext\Views\Helpers\FormatDateHelper $formateDate */
 		$formateDate = $this->view->GetHelper('FormatDate');
 		$formateDate
-			->SetIntlDefaultDateFormatter(\IntlDateFormatter::MEDIUM)
-			->SetIntlDefaultTimeFormatter(\IntlDateFormatter::NONE)
+			->SetDefaultIntlDateType(\IntlDateFormatter::MEDIUM)
+			->SetDefaultIntlTimeType(\IntlDateFormatter::NONE)
 			/** @see http://php.net/strftime */
-			->SetStrftimeFormatMask('%e. %B %G');
+			->SetDefaultFormatMask('%e. %B %G');
 	}
 
 	protected function preDispatchSetUpAssetsBase () {
