@@ -20,7 +20,7 @@ class Bootstrap {
 
 
 		$app->GetEnvironment()->GetName();
-		$sysCfg = \MvcCore\Config::GetSystem();
+		$sysCfg = \MvcCore\Config::GetConfigSystem();
 		$cache = \MvcCore\Ext\Caches\Redis::GetInstance([ // `default` connection to:
 			\MvcCore\Ext\ICache::CONNECTION_NAME		=> $sysCfg->cache->storeName,
 			\MvcCore\Ext\ICache::CONNECTION_DATABASE	=> $sysCfg->cache->databaseName,
