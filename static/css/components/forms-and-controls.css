@@ -9,16 +9,6 @@ form.theme{
 	background:url('<?php echo $this->AssetUrl('/static/img/theme/box-bg.min.svg'); ?>');
 	box-shadow:0 0 15px #eaecf5,0 0 15px rgba(234,236,245,0.75);
 }
-form.theme input,
-form.theme button,
-form.theme textarea,
-form.theme select,
-form.theme div,
-form.theme table,
-form.theme fieldset {
-	position:relative;
-	z-index:202;
-}
 form.theme:before,
 form.theme::before {
 	display:block;
@@ -39,9 +29,25 @@ form.theme::before {
 .theme select,
 .theme div,
 .theme table,
-.theme fieldset {
+.theme fieldset{
 	position:relative;
 	z-index:202;
+}
+.theme fieldset{
+	border:1px solid #fff;
+	border-radius:2px;
+	padding:10px;
+}
+.theme fieldset.noborder{
+	border:0;
+	border-radius:0;
+	padding:0;
+}
+.theme fieldset legend{
+	position:relative;
+	top:1px;
+	padding:0 10px;
+	margin-left:-10px;
 }
 
 /* all controls */
@@ -63,7 +69,8 @@ form.theme::before {
 .theme input[type=button],
 .theme button,
 .theme textarea,
-.theme select{
+.theme select,
+.theme input[type=button].select{
 	font-size:16px;
 	color:#17171a;
 	text-shadow:1px 1px 0 #fff;
@@ -91,7 +98,8 @@ form.theme::before {
 .theme input[disabled][type=image],
 .theme input[disabled][type=button],
 .theme textarea[disabled],
-.theme select[disabled]{
+.theme select[disabled],
+.theme input[type=button][disabled].select{
 	filter:grayscale(100%) contrast(70%) brightness(110%);
 	opacity:0.9;
 }
@@ -118,7 +126,8 @@ html[data-browser*='MSIE 11.'] .theme input[type=search]{
 .theme input[type=search],
 .theme input[type=tel],
 .theme input[type=url],
-.theme select[multiple]{
+.theme select[multiple],
+.theme input[type=button].select{
 	padding:6px 10px 4px 10px;
 }
 .theme input[type=color]{
@@ -152,7 +161,9 @@ html[data-browser*='Chrome'] .theme input[type=color]{
 	-ms-overflow-style:auto;
 }
 /* text-like controls with advanced sub controls */
-.theme input[type=number],
+.theme input[type=number]{
+	padding:6px 13px 4px 10px;
+}
 .theme input[type*=date],
 .theme input[type=month],
 .theme input[type=time],
@@ -169,10 +180,10 @@ html[data-browser*='Chrome'] .theme input[type=color]{
 	border:0;
 	background-color:transparent;
 	position:absolute;
-	right:-4px;
+	right:0;
 }
 .theme input[type=file]{
-	background-size:calc(100% - 155px) 100%;
+	background-size:calc(100% - 160px) 100%;
 }
 /* date controls */
 .theme input[type*=date],
@@ -212,6 +223,20 @@ html[data-browser*='Chrome'] .theme input[type=color]{
 	appearance:none;
 	cursor:pointer;
 }
+.theme input[type=button].select{
+	height:40px;
+	text-decoration:none;
+	display:inline-block;
+	background-repeat:no-repeat;
+	background-color:transparent;
+	background-size:100% 100%;
+	cursor:pointer;
+	text-align:left;
+	color:#000;
+	font-weight:normal;
+	text-shadow:none;
+	padding:0 10px 0 10px;
+}
 html[data-browser*='MSIE'] .theme select,
 html[data-browser*='Edge/'] .theme select{ 
 	text-shadow:none;
@@ -223,12 +248,21 @@ html[data-browser*='MSIE 9.'] .theme select{
 	display:none;/* hide the default arrow in ie10 and ie11 */
 }
 /* buttons */
-.theme input[type=file]::-webkit-file-upload-button,
 .theme input[type=submit],
 .theme input[type=reset],
 .theme input[type=image],
 .theme input[type=button],
 .theme button{
+	font-weight:bold;
+	height:40px;
+	line-height:21px;
+	padding:0 20px 0 20px;
+	cursor:pointer;
+	text-shadow:1px 1px 0 #fff;
+	cursor:pointer;
+	color:#1b4595;
+}
+.theme input[type=file]::-webkit-file-upload-button{
 	font-weight:bold;
 	height:40px;
 	line-height:21px;
@@ -372,22 +406,26 @@ html[data-browser*='MSIE 9.'] .theme select{
 .theme select[multiple][readonly] {
 	background-image: url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.normal.passive.min.svg'); ?>') !important;
 }
-.theme select{
+.theme select,
+.theme input[type=button].select{
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/select.normal.passive.min.svg'); ?>');
 }
-.theme select.error{
+.theme select.error,
+.theme input[type=button].select.error{
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/select.error.passive.min.svg'); ?>');
 }
-.theme select[required]{
+.theme select[required],
+.theme input[type=button][required].select{
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/select.normal.passive.required.min.svg'); ?>');
 }
-.theme select.error[required]{
+.theme select.error[required],
+.theme input[type=button][required].select.error{
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/select.error.passive.required.min.svg'); ?>');
 }
-.theme select[readonly]{
+.theme select[readonly],
+.theme input[type=button][readonly].select{
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/select.normal.passive.min.svg'); ?>') !important;
 }
-.theme input[type=file]::-webkit-file-upload-button,
 .theme input[type=submit],
 .theme input[type=reset],
 .theme input[type=image],
@@ -399,6 +437,9 @@ html[data-browser*='MSIE 9.'] .theme select{
 .theme button[disabled]:hover,
 .theme button[disabled]:focus,
 .theme button[disabled]:active{
+	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/buttons-form.passive.min.svg'); ?>');
+}
+.theme input[type=file]::-webkit-file-upload-button{
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/buttons-form.passive.min.svg'); ?>');
 }
 
@@ -445,78 +486,86 @@ html[data-browser*='MSIE 9.'] .theme select{
 	text-shadow:none;
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.error.active.min.svg'); ?>');
 }
-.theme input[type=text][required]:hover,			.themeinput[type=text][required]:focus,				.theme input[type=text][required]:active,
-.theme input[type=password][required]:hover,		.themeinput[type=password][required]:focus,			.theme input[type=password][required]:active,
-.theme input[type=number][required]:hover,			.themeinput[type=number][required]:focus,			.theme input[type=number][required]:active,
-.theme input[type=email][required]:hover,			.themeinput[type=email][required]:focus,			.theme input[type=email][required]:active,
-.theme input[type=search][required]:hover,			.themeinput[type=search][required]:focus,			.theme input[type=search][required]:active,
-.theme input[type=tel][required]:hover,				.themeinput[type=tel][required]:focus,				.theme input[type=tel][required]:active,
-.theme input[type=url][required]:hover,				.themeinput[type=url][required]:focus,				.theme input[type=url][required]:active,
-.theme input[type=color][required]:hover,			.themeinput[type=color][required]:focus,			.theme input[type=color][required]:active,
-.theme input[type=file][required]:hover,			.themeinput[type=file][required]:focus,				.theme input[type=file][required]:active,
-.theme input[type*=date][required]:hover,			.themeinput[type*=date][required]:focus,			.theme input[type*=date][required]:active,
-.theme input[type=month][required]:hover,			.themeinput[type=month][required]:focus,			.theme input[type=month][required]:active,
-.theme input[type=time][required]:hover,			.themeinput[type=time][required]:focus,				.theme input[type=time][required]:active,
-.theme input[type=week][required]:hover,			.themeinput[type=week][required]:focus,				.theme input[type=week][required]:active,
-.theme select[multiple][required]:hover,			.themeselect[multiple][required]:focus,				.theme select[multiple][required]:active,
-.theme textarea[required]:hover,					.themetextarea[required]:focus,						.theme textarea[required]:active{
+.theme input[type=text][required]:hover,			.theme input[type=text][required]:focus,			.theme input[type=text][required]:active,
+.theme input[type=password][required]:hover,		.theme input[type=password][required]:focus,		.theme input[type=password][required]:active,
+.theme input[type=number][required]:hover,			.theme input[type=number][required]:focus,			.theme input[type=number][required]:active,
+.theme input[type=email][required]:hover,			.theme input[type=email][required]:focus,			.theme input[type=email][required]:active,
+.theme input[type=search][required]:hover,			.theme input[type=search][required]:focus,			.theme input[type=search][required]:active,
+.theme input[type=tel][required]:hover,				.theme input[type=tel][required]:focus,				.theme input[type=tel][required]:active,
+.theme input[type=url][required]:hover,				.theme input[type=url][required]:focus,				.theme input[type=url][required]:active,
+.theme input[type=color][required]:hover,			.theme input[type=color][required]:focus,			.theme input[type=color][required]:active,
+.theme input[type=file][required]:hover,			.theme input[type=file][required]:focus,			.theme input[type=file][required]:active,
+.theme input[type*=date][required]:hover,			.theme input[type*=date][required]:focus,			.theme input[type*=date][required]:active,
+.theme input[type=month][required]:hover,			.theme input[type=month][required]:focus,			.theme input[type=month][required]:active,
+.theme input[type=time][required]:hover,			.theme input[type=time][required]:focus,			.theme input[type=time][required]:active,
+.theme input[type=week][required]:hover,			.theme input[type=week][required]:focus,			.theme input[type=week][required]:active,
+.theme select[multiple][required]:hover,			.theme select[multiple][required]:focus,			.theme select[multiple][required]:active,
+.theme textarea[required]:hover,					.theme textarea[required]:focus,					.theme textarea[required]:active{
 	color:#000;
 	outline:none;
 	text-shadow:none;
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.normal.active.required.min.svg'); ?>');
 }
-.theme input.error[type=text][required]:hover,		.themeinput.error[type=text][required]:focus,		.theme input.error[type=text][required]:active,
-.theme input.error[type=password][required]:hover,	.themeinput.error[type=password][required]:focus,	.theme input.error[type=password][required]:active,
-.theme input.error[type=number][required]:hover,	.themeinput.error[type=number][required]:focus,		.theme input.error[type=number][required]:active,
-.theme input.error[type=email][required]:hover,		.themeinput.error[type=email][required]:focus,		.theme input.error[type=email][required]:active,
-.theme input.error[type=search][required]:hover,	.themeinput.error[type=search][required]:focus,		.theme input.error[type=search][required]:active,
-.theme input.error[type=tel][required]:hover,		.themeinput.error[type=tel][required]:focus,		.theme input.error[type=tel][required]:active,
-.theme input.error[type=url][required]:hover,		.themeinput.error[type=url][required]:focus,		.theme input.error[type=url][required]:active,
-.theme input.error[type=color][required]:hover,		.themeinput.error[type=color][required]:focus,		.theme input.error[type=color][required]:active,
-.theme input.error[type=file][required]:hover,		.themeinput.error[type=file][required]:focus,		.theme input.error[type=file][required]:active,
-.theme input.error[type*=date][required]:hover,		.themeinput.error[type*=date][required]:focus,		.theme input.error[type*=date][required]:active,
-.theme input.error[type=month][required]:hover,		.themeinput.error[type=month][required]:focus,		.theme input.error[type=month][required]:active,
-.theme input.error[type=time][required]:hover,		.themeinput.error[type=time][required]:focus,		.theme input.error[type=time][required]:active,
-.theme input.error[type=week][required]:hover,		.themeinput.error[type=week][required]:focus,		.theme input.error[type=week][required]:active,
-.theme select.error[multiple][required]:hover,		.themeselect.error[multiple][required]:focus,		.theme select.error[multiple][required]:active,
-.theme textarea.error[required]:hover,				.themetextarea.error[required]:focus,				.theme textarea.error[required]:active{
+.theme input.error[type=text][required]:hover,		.theme input.error[type=text][required]:focus,		.theme input.error[type=text][required]:active,
+.theme input.error[type=password][required]:hover,	.theme input.error[type=password][required]:focus,	.theme input.error[type=password][required]:active,
+.theme input.error[type=number][required]:hover,	.theme input.error[type=number][required]:focus,	.theme input.error[type=number][required]:active,
+.theme input.error[type=email][required]:hover,		.theme input.error[type=email][required]:focus,		.theme input.error[type=email][required]:active,
+.theme input.error[type=search][required]:hover,	.theme input.error[type=search][required]:focus,	.theme input.error[type=search][required]:active,
+.theme input.error[type=tel][required]:hover,		.theme input.error[type=tel][required]:focus,		.theme input.error[type=tel][required]:active,
+.theme input.error[type=url][required]:hover,		.theme input.error[type=url][required]:focus,		.theme input.error[type=url][required]:active,
+.theme input.error[type=color][required]:hover,		.theme input.error[type=color][required]:focus,		.theme input.error[type=color][required]:active,
+.theme input.error[type=file][required]:hover,		.theme input.error[type=file][required]:focus,		.theme input.error[type=file][required]:active,
+.theme input.error[type*=date][required]:hover,		.theme input.error[type*=date][required]:focus,		.theme input.error[type*=date][required]:active,
+.theme input.error[type=month][required]:hover,		.theme input.error[type=month][required]:focus,		.theme input.error[type=month][required]:active,
+.theme input.error[type=time][required]:hover,		.theme input.error[type=time][required]:focus,		.theme input.error[type=time][required]:active,
+.theme input.error[type=week][required]:hover,		.theme input.error[type=week][required]:focus,		.theme input.error[type=week][required]:active,
+.theme select.error[multiple][required]:hover,		.theme select.error[multiple][required]:focus,		.theme select.error[multiple][required]:active,
+.theme textarea.error[required]:hover,				.theme textarea.error[required]:focus,				.theme textarea.error[required]:active{
 	color:#000;
 	outline:none;
 	text-shadow:none;
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.error.active.required.min.svg'); ?>');
 }
-.theme select:hover,.theme select:focus,.theme select:active{
+.theme select:hover,.theme select:focus,.theme select:active,
+.theme input[type=button].select:hover,.theme input[type=button].select:focus,.theme input[type=button].select:active{
 	color:#000;
 	outline:none;
 	text-shadow:none;
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/select.normal.active.min.svg'); ?>');
 }
-.theme select.error:hover,.theme select.error:focus,.theme select.error:active{
+.theme select.error:hover,.theme select.error:focus,.theme select.error:active,
+.theme input[type=button].select.error:hover,.theme input[type=button].select.error:focus,.theme input[type=button].select.error:active{
 	color:#000;
 	outline:none;
 	text-shadow:none;
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/select.error.active.min.svg'); ?>');
 }
-.theme select[required]:hover,.theme select[required]:focus,.theme select[required]:active{
+.theme select[required]:hover,.theme select[required]:focus,.theme select[required]:active,
+.theme input[type=button][required].select:hover,.theme input[type=button][required].select:focus,.theme input[type=button][required].select:active{
 	color:#000;
 	outline:none;
 	text-shadow:none;
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/select.normal.active.required.min.svg'); ?>');
 }
-.theme select.error[required]:hover,.theme select.error[required]:focus,.theme select.error[required]:active{
+.theme select.error[required]:hover,.theme select.error[required]:focus,.theme select.error[required]:active,
+.theme input[type=button][required].select.error:hover,.theme input[type=button][required].select.error:focus,.theme input[type=button][required].select.error:active{
 	color:#000;
 	outline:none;
 	text-shadow:none;
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/select.error.active.required.min.svg'); ?>');
 }
-.theme input[type=file]:hover::-webkit-file-upload-button,
-.theme input[type=file]:focus::-webkit-file-upload-button,
-.theme input[type=file]:active::-webkit-file-upload-button,
 .theme input[type=submit]:hover,	.themeinput[type=submit]:focus,		.theme input[type=submit]:active,
 .theme input[type=reset]:hover,		.themeinput[type=reset]:focus,		.theme input[type=reset]:active,
 .theme input[type=image]:hover,		.themeinput[type=image]:focus,		.theme input[type=image]:active,
 .theme input[type=button]:hover,	.theme input[type=button]:focus,	.theme input[type=button]:active,
 .theme button:hover,				.theme button:focus,				.theme button:active{
+	color:#0056d6;
+	outline:none;
+	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/buttons-form.active.min.svg'); ?>');
+}
+.theme input[type=file]:hover::-webkit-file-upload-button,
+.theme input[type=file]:focus::-webkit-file-upload-button,
+.theme input[type=file]:active::-webkit-file-upload-button{
 	color:#0056d6;
 	outline:none;
 	background-image:url('<?php echo $this->AssetUrl('/static/img/theme/buttons-form.active.min.svg'); ?>');
@@ -529,26 +578,32 @@ html[data-browser*='MSIE 9.'] .theme select{
 .theme input::-moz-selection{
 	background:#263b97;
 	color:#fff;
+	text-shadow:none;
 }
 .theme input::selection{
 	background:#263b97;
 	color:#fff;
+	text-shadow:none;
 }
 .theme select::-moz-selection{
 	background:#263b97;
 	color:#fff;
+	text-shadow:none;
 } 
 .theme select::selection{
 	background:#263b97;
 	color:#fff;
+	text-shadow:none;
 }
 .theme textarea::-moz-selection {
 	background:#263b97;
 	color:#fff;
+	text-shadow:none;
 }
 .theme textarea::selection {
 	background:#263b97;
 	color:#fff;
+	text-shadow:none;
 }
 .theme label.checkbox.required:after,
 .theme label.checkbox.required::after{
@@ -602,26 +657,4 @@ html[data-browser*='MSIE 9.'] .theme select{
 .theme datalist{
 	position:absolute;
 	visibility:hidden;
-}
-.theme:after,
-.theme::after{
-	position:absolute;
-	overflow:hidden;
-	width:1px;
-	height:1px;
-	opacity:0.01;
-	z-index:1;
-	content:url('<?php echo $this->AssetUrl('/static/img/theme/buttons-form.active.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.normal.active.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.normal.active.required.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.error.passive.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.error.passive.required.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.error.active.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/text-inputs.error.active.required.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/select.normal.active.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/select.normal.active.required.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/select.error.passive.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/select.error.passive.required.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/select.error.active.min.svg'); ?>') 
-			url('<?php echo $this->AssetUrl('/static/img/theme/select.error.active.required.min.svg'); ?>');
 }
