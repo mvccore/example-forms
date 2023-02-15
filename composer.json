@@ -14,7 +14,7 @@
 		"mvccore/ext-model-db": "^5.2",
 		"mvccore/ext-model-db-sqlite": "^5.2",
 		"mvccore/ext-cache-redis": "^5.0",
-		"mvccore/ext-form": "^5.1.9",
+		"mvccore/ext-form": "^5.2",
 		"mvccore/ext-form-field-text": "^5.0",
 		"mvccore/ext-form-field-numeric": "^5.0",
 		"mvccore/ext-form-field-date": "^5.0",

@@ -4,30 +4,36 @@ namespace App\Controllers;
 
 class Index extends Base {
 
+	protected $autoInitProperties = TRUE;
+
+	/**
+	 * @autoInit createRegisterForm, 0
+	 * @var \App\Forms\UserRegistration
+	 */
+	protected $registerForm;
+
 	/**
 	 * Render homepage with registration form.
 	 * @return void
 	 */
 	public function IndexAction () {
 		$this->view->title = 'Registration';
-		$this->view->registerForm = $this->getRegistrationForm();
+		$this->view->registerForm = $this->registerForm;
 	}
 
 	public function SubmitAction () {
-		$form = $this->getRegistrationForm();
-		list ($result/*, $values, $errors*/) = $form->Submit();
+		list ($result) = $this->registerForm->Submit();
 		if ($result === \MvcCore\Ext\Form::RESULT_SUCCESS)
-			$form->ClearSession();
-		$form->SubmittedRedirect();
+			$this->registerForm->ClearSession();
+		$this->registerForm->SubmittedRedirect();
 	}
-
-	protected function getRegistrationForm () {
+	
+	protected function createRegisterForm () {
 		return (new \App\Forms\UserRegistration($this))
 			->SetAction($this->Url(':Submit', ['absolute' => TRUE]))
 			->SetErrorUrl($this->Url(':Index', ['absolute' => TRUE]))
 			->SetSuccessUrl($this->Url('Users:List', ['absolute' => TRUE]));
 	}
-
 
 	/**
 	 * @return void

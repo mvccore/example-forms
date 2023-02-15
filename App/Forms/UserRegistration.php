@@ -299,6 +299,8 @@ class UserRegistration extends \MvcCore\Ext\Form
 		$this->AddFieldsets(
 			$personal, $credentials, $internationalization, $family
 		);
+
+		$this->submit = $this->initDetectSubmit();
 	}
 
 	public function PreDispatch($submit = FALSE) {
