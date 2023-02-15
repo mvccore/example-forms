@@ -306,6 +306,8 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 	 * @return string|NULL
 	 */
 	public function GetAvatarUrl () {
+		if ($this->avatarUrl === NULL)
+			return NULL;
 		if (
 			mb_strpos($this->avatarUrl, 'http://') === 0 ||
 			mb_strpos($this->avatarUrl, 'https://') === 0
