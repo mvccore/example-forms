@@ -21,23 +21,23 @@
 				<?php if ($user->GetAvatarUrl()): ?>
 					<img src="<?=$user->GetAvatarUrl()?>" 
 							height="30" width="auto" 
-							alt="<?=$user->GetUserName()?>" />
+							alt="<?=$escape($user->GetUserName())?>" />
 				<?php endif; ?>
 				<i><?=$this->FormatDate($user->GetCreated())?></i>
-				<h2><?=$user->GetFullName()?></h2>
+				<h2><?=$escape($user->GetFullName())?></h2>
 				<table>
 					<tbody>
 						<tr>
 							<td>E-mail:</td>
-							<td><?=$user->GetEmail()?></td>
+							<td><?=$escape($user->GetEmail())?></td>
 						</tr>
 						<tr>
 							<td>Website:</td>
-							<td><?=$user->GetWebsiteUrl()?></td>
+							<td><?=$escape($user->GetWebsiteUrl())?></td>
 						</tr>
 						<tr>
 							<td>Login:</td>
-							<td><?=$user->GetUserName()?></td>
+							<td><?=$escape($user->GetUserName())?></td>
 						</tr>
 					</tbody>
 				</table>
