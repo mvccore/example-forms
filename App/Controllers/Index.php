@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use \MvcCore\Controller\AutoInit;
+
 class Index extends Base {
 
 	protected $autoInitProperties = TRUE;
@@ -10,7 +12,8 @@ class Index extends Base {
 	 * @autoInit createRegisterForm, 0
 	 * @var \App\Forms\UserRegistration
 	 */
-	protected $registerForm;
+	#[AutoInit]
+	protected \App\Forms\UserRegistration $registerForm;
 
 	/**
 	 * Render homepage with registration form.

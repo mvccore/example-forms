@@ -19,6 +19,17 @@ class Bootstrap {
 		}
 
 
+		/**
+		 * Set up old protection CSRF type and old PHPDocs syntax 
+		 * to keep maximum compatibility for this example:
+		 */
+		$app
+			//->SetCsrfProtection($app::CSRF_PROTECTION_COOKIE) // new way, best to  work in multiple tabs
+			->SetCsrfProtection($app::CSRF_PROTECTION_FORM_INPUT) // old, but most compatible way
+			//->SetAttributesAnotations(TRUE); // PHP >= 8.0
+			->SetAttributesAnotations(FALSE); // PHP < 8.0 compatibility
+
+
 		$app->GetEnvironment()->GetName();
 		$sysCfg = \MvcCore\Config::GetConfigSystem();
 		$cache = \MvcCore\Ext\Caches\Redis::GetInstance([ // `default` connection to:
