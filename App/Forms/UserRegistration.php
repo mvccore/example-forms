@@ -338,7 +338,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 						$targetRelativePath = '/Var/Avatars/' . $avatarFile->name;
 						$moved = move_uploaded_file(
 							$avatarFile->tmpFullPath,
-							$this->request->GetAppRoot() . $targetRelativePath
+							$this->applicaton->GetPathAppRoot() . $targetRelativePath
 						);
 						if ($moved) 
 							$data->avatar_url = $this->request->GetBaseUrl() . $targetRelativePath;
